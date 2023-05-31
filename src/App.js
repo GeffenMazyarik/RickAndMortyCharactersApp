@@ -1,14 +1,11 @@
 import './App.css';
-import { Button } from '@mui/material';
+import CharactersGrid from "./components/CharactersGrid";
+
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <Button> Click </Button>
-      </header>
-    </div>
-  );
+    return (
+        <CharactersGrid />
+    );
 }
 
 export default App;
