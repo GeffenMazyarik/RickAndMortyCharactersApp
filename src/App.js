@@ -2,7 +2,6 @@ import './App.css';
 import CharactersGrid from "./components/CharactersGrid";
 import {MenuItem, TextField} from "@mui/material";
 import {useState} from "react";
-import _ from "lodash";
 import { useDebounce } from "use-debounce";
 
 
@@ -10,7 +9,7 @@ function App() {
     const [nameFilter, setNameFilter] = useState("");
     const [genderFilter, setGenderFilter] = useState("");
     const [statusFilter, setStatusFilter] = useState("");
-    const [debouncedValue] = useDebounce(nameFilter, 2000);
+    const [debouncedNameFilter] = useDebounce(nameFilter, 300);
 
     const genders = [
         {
@@ -105,7 +104,7 @@ function App() {
                 ))}
             </TextField>
 
-            <CharactersGrid nameFilter={nameFilter} genderFilter={genderFilter} statusFilter={statusFilter}/>
+            <CharactersGrid nameFilter={debouncedNameFilter} genderFilter={genderFilter} statusFilter={statusFilter}/>
         </div>
     );
 }
