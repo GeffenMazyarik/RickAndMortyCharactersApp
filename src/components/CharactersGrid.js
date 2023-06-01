@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import {getCharacters} from "../api";
 import {DataGrid} from "@mui/x-data-grid";
-import {Avatar} from "@mui/material";
+import {Alert, Avatar} from "@mui/material";
 import CharacterModal from "./CharacterModal";
 
 function CharactersGrid({nameFilter, genderFilter, statusFilter}){
@@ -22,11 +22,19 @@ function CharactersGrid({nameFilter, genderFilter, statusFilter}){
 
     const [isCharacterModalOpen, setIsCharacterModalOpen] = useState(false);
     const [selectedCharacter, setSelectedCharacter] = useState({});
+    const [errorMessage, setErrorMessage] = useState("");
 
     function refreshCharacters(){
         getCharacters(paginationModel.page, nameFilter, genderFilter, statusFilter).then((res) => {
-            setCharacters(res.results);
-            setRowCount(res.info.count);
+            if(res.error) {
+                setErrorMessage(res.error);
+                setCharacters([]);
+                setRowCount(0);
+            } else {
+                setErrorMessage("");
+                setCharacters(res.results);
+                setRowCount(res.info.count);
+            }
         });
     }
 
@@ -45,6 +53,9 @@ function CharactersGrid({nameFilter, genderFilter, statusFilter}){
 
     return (
         <div>
+            { errorMessage &&
+                <Alert severity="error">{errorMessage}</Alert>
+            }
             <DataGrid
                 rows={characters}
                 columns={columns}
