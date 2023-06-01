@@ -1,6 +1,6 @@
 import {MenuItem, TextField} from "@mui/material";
 
-function GenderFilter({onChange}) {
+function GenderFilter({ onChange, value }) {
     const genders = [
         {
             value: '',
@@ -32,7 +32,9 @@ function GenderFilter({onChange}) {
 
     return (
         <TextField
+            fullWidth
             select
+            value={value}
             label="Gender"
             onChange={handleGenderFilterChange}
         >

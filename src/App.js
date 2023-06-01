@@ -1,6 +1,6 @@
 import './App.css';
 import CharactersGrid from "./components/CharactersGrid";
-import { TextField } from "@mui/material";
+import {Button, Grid, TextField} from "@mui/material";
 import {useState } from "react";
 import { useDebounce } from "use-debounce";
 import GenderFilter from "./components/GenderFilter";
@@ -13,20 +13,42 @@ function App() {
     const [statusFilter, setStatusFilter] = useState("");
     const [debouncedNameFilter] = useDebounce(nameFilter, 300)
 
+    const btnStyle = {
+        height: '100%',
+    };
+
     const handleInputChange = (event) => {
         setNameFilter(event.target.value);
     }
 
+    function clearAllFilters(){
+        setNameFilter("");
+        setGenderFilter("");
+        setStatusFilter("");
+    }
+
     return (
         <div>
-            <TextField
-                label="Search"
-                value={nameFilter}
-                onChange={handleInputChange}
-            />
+            <Grid container spacing={1}>
+                <Grid item xs={12}>
+                    <TextField
+                        fullWidth
+                        label="Search"
+                        value={nameFilter}
+                        onChange={handleInputChange}
+                    />
+                </Grid>
+                <Grid item xs={5}>
+                    <GenderFilter value={genderFilter} onChange={value => setGenderFilter(value)}/>
+                </Grid>
+                <Grid item xs={5}>
+                    <StatusFilter value={statusFilter} onChange={value => setStatusFilter(value)}/>
+                </Grid>
+                <Grid item xs={2}>
+                    <Button onClick={clearAllFilters} fullWidth sx={btnStyle} variant="outlined">Clear All</Button>
+                </Grid>
+            </Grid>
 
-            <GenderFilter onChange={value => setGenderFilter(value)}/>
-            <StatusFilter onChange={value => setStatusFilter(value)}/>
             <CharactersGrid nameFilter={debouncedNameFilter} genderFilter={genderFilter} statusFilter={statusFilter}/>
         </div>
     );

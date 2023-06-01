@@ -1,6 +1,6 @@
 import {MenuItem, TextField} from "@mui/material";
 
-function StatusFilter({onChange}) {
+function StatusFilter({onChange, value}) {
     const statuses = [
         {
             value: '',
@@ -27,7 +27,9 @@ function StatusFilter({onChange}) {
 
     return (
         <TextField
+            fullWidth
             select
+            value={value}
             label="Status"
             onChange={handleStatusFilterChange}
         >
