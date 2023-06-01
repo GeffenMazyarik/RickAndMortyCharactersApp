@@ -1,8 +1,10 @@
 import {useEffect, useState} from "react";
 import {getCharacters} from "../api";
 import {DataGrid} from "@mui/x-data-grid";
+import {Avatar} from "@mui/material";
+import CharacterModal from "./CharacterModal";
 
-function CharactersGrid(){
+function CharactersGrid({nameFilter, genderFilter, statusFilter}){
     const [characters, setCharacters] = useState([]);
     const [rowCount, setRowCount] = useState(0);
     const [paginationModel, setPaginationModel] = useState({
@@ -10,7 +12,7 @@ function CharactersGrid(){
         pageSize: 20,
     });
     const columns = [
-        { field: 'image', headerName: 'Image', width: 150, renderCell: (params) => <img src={params.value} />},
+        { field: 'image', headerName: 'Image', width: 150, renderCell: (params) => <Avatar src={params.value} />},
         { field: 'name', headerName: 'Character Name', width: 150 },
         { field: 'origin', headerName: 'Origin', width: 150, renderCell: (params) => params.value?.name},
         { field: 'status', headerName: 'Status', width: 150 },
@@ -18,30 +20,49 @@ function CharactersGrid(){
         { field: 'gender', headerName: 'Gender', width: 150 },
     ];
 
-    useEffect( () => {
-        getCharacters().then((res) => {
+    const [isCharacterModalOpen, setIsCharacterModalOpen] = useState(false);
+    const [selectedCharacter, setSelectedCharacter] = useState({});
+
+    function refreshCharacters(){
+        getCharacters(paginationModel.page, nameFilter, genderFilter, statusFilter).then((res) => {
             setCharacters(res.results);
             setRowCount(res.info.count);
         });
+    }
+
+    useEffect( () => {
+        refreshCharacters();
     },[]);
 
     useEffect(() => {
-        getCharacters(paginationModel.page).then((res) => {
-            setCharacters(res.results);
-            setRowCount(res.info.count);
-        });
-    }, [paginationModel])
+        refreshCharacters();
+    }, [paginationModel, nameFilter, genderFilter, statusFilter])
+
+    const handleOnRowClick = (gridRow) => {
+        setSelectedCharacter(gridRow.row);
+        setIsCharacterModalOpen(true);
+    };
 
     return (
-        <DataGrid
-            rows={characters}
-            columns={columns}
-            rowCount={rowCount}
-            paginationModel={paginationModel}
-            paginationMode="server"
-            onPaginationModelChange={setPaginationModel}
-        />
+        <div>
+            <DataGrid
+                rows={characters}
+                columns={columns}
+                rowCount={rowCount}
+                paginationModel={paginationModel}
+                paginationMode="server"
+                onPaginationModelChange={setPaginationModel}
+                onRowClick={handleOnRowClick}
+            />
+            <CharacterModal
+                character={selectedCharacter}
+                isOpen={isCharacterModalOpen}
+                onClose={() => setIsCharacterModalOpen(false)}/>
+        </div>
+
     );
 }
+
+
 
 export default CharactersGrid;

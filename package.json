@@ -8,9 +8,11 @@
     "@mui/material": "^5.13.3",
     "@mui/x-data-grid": "^6.5.0",
     "axios": "^1.4.0",
+    "lodash": "^4.17.21",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-scripts": "5.0.1"
+    "react-scripts": "5.0.1",
+    "use-debounce": "^9.0.4"
   },
   "scripts": {
     "start": "react-scripts start",

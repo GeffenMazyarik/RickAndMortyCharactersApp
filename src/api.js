@@ -1,8 +1,15 @@
 import axios from "axios";
 
-async function getCharacters(page = 0) {
-    const characters = await axios.get('https://rickandmortyapi.com/api/character',{ params: { page: page + 1} });
+async function getCharacters(page = 0, name, gender, status) {
+    const queryConfig = { params: { page: page + 1, name, gender, status } };
+
+    const characters = await axios.get('https://rickandmortyapi.com/api/character', queryConfig);
     return characters.data;
 }
 
-export {getCharacters}
+async function getEpisode(episodeUrl) {
+    const episodeData = await axios.get(episodeUrl);
+    return episodeData.data.episode;
+}
+
+export {getCharacters, getEpisode}
