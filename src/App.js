@@ -29,6 +29,7 @@ function App() {
 
     return (
         <div>
+            <h1>Rick and Morty Characters App</h1>
             <Grid container spacing={1}>
                 <Grid item xs={12}>
                     <TextField
@@ -41,15 +42,16 @@ function App() {
                 <Grid item xs={5}>
                     <GenderFilter value={genderFilter} onChange={value => setGenderFilter(value)}/>
                 </Grid>
-                <Grid item xs={5}>
+                <Grid item xs={4} xl={5}>
                     <StatusFilter value={statusFilter} onChange={value => setStatusFilter(value)}/>
                 </Grid>
-                <Grid item xs={2}>
-                    <Button onClick={clearAllFilters} fullWidth sx={btnStyle} variant="outlined">Clear All</Button>
+                <Grid item xs={3} xl={2}>
+                    <Button onClick={clearAllFilters} fullWidth sx={btnStyle} variant="contained">Clear</Button>
+                </Grid>
+                <Grid item xs={12}>
+                    <CharactersGrid nameFilter={debouncedNameFilter} genderFilter={genderFilter} statusFilter={statusFilter}/>
                 </Grid>
             </Grid>
-
-            <CharactersGrid nameFilter={debouncedNameFilter} genderFilter={genderFilter} statusFilter={statusFilter}/>
         </div>
     );
 }

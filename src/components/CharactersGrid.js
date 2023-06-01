@@ -12,13 +12,14 @@ function CharactersGrid({nameFilter, genderFilter, statusFilter}){
         pageSize: 20,
     });
     const columns = [
-        { field: 'image', headerName: 'Image', width: 150, renderCell: (params) => <Avatar src={params.value} />},
-        { field: 'name', headerName: 'Character Name', width: 150 },
-        { field: 'origin', headerName: 'Origin', width: 150, renderCell: (params) => params.value?.name},
-        { field: 'status', headerName: 'Status', width: 150 },
-        { field: 'species', headerName: 'Species', width: 150 },
-        { field: 'gender', headerName: 'Gender', width: 150 },
+        { field: 'image', headerName: 'Image', width: 70, renderCell: (params) => <Avatar src={params.value} />},
+        { field: 'name', headerName: 'Character Name', width: 200 },
+        { field: 'origin', headerName: 'Origin', width: 230, renderCell: (params) => params.value?.name},
+        { field: 'status', headerName: 'Status', width: 80 },
+        { field: 'species', headerName: 'Species', width: 80 },
+        { field: 'gender', headerName: 'Gender', width: 80 },
     ];
+
 
     const [isCharacterModalOpen, setIsCharacterModalOpen] = useState(false);
     const [selectedCharacter, setSelectedCharacter] = useState({});
